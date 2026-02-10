@@ -7,6 +7,11 @@ app.use(express.json());
 
 const EMAIL = "abhinav0008.be23@chitkara.edu.in";
 
+// ---------- Root route (for Render) ----------
+app.get("/", (req, res) => {
+  res.send("BFHL API is running");
+});
+
 // ---------- Helpers ----------
 function fibonacci(n) {
   if (n <= 0) return [];
@@ -42,7 +47,7 @@ app.get("/health", (req, res) => {
   res.json({ is_success: true, official_email: EMAIL });
 });
 
-// ---------- Main ----------
+// ---------- Main API ----------
 app.post("/bfhl", async (req, res) => {
   try {
     const body = req.body;
@@ -88,9 +93,7 @@ app.post("/bfhl", async (req, res) => {
             {
               role: "user",
               parts: [
-                {
-                  text: `Answer in ONE WORD only: ${body.AI}`
-                }
+                { text: `Answer in ONE WORD only: ${body.AI}` }
               ]
             }
           ]
@@ -120,6 +123,6 @@ app.post("/bfhl", async (req, res) => {
   }
 });
 
+// ---------- Listen (Render compatible) ----------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port " + PORT));
-
